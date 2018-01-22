@@ -1,0 +1,13 @@
+FROM quay.io/monax/build:0.17
+MAINTAINER Monax <support@monax.io>
+
+ARG RELEASE
+ARG TARGET
+ENV TARGET_URL github.com/monax/$TARGET
+ENV REPO $GOPATH/src/$TARGET_URL
+
+RUN git clone https://$TARGET_URL $REPO
+WORKDIR $REPO
+RUN git checkout v$RELEASE && \
+  cd $REPO/cmd/$TARGET && \
+  go build --ldflags '-extldflags "-static"' -o $INSTALL_BASE/$TARGET
