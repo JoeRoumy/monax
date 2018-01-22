@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TARGET="monax"
+IMAGE="quay.io/monax/$TARGET"
+RELEASE=${version:-"0.18.0"}
+
+set -e
+mkdir -p $MY_DIR/target
+docker build --build-arg RELEASE="$RELEASE" --build-arg TARGET="$TARGET" --file Dockerfile.build --tag $IMAGE:build $MY_DIR
+docker run --rm --entrypoint cat $IMAGE:build /usr/local/bin/$TARGET > $MY_DIR/target/$TARGET.dockerartefact
+docker build --tag "$IMAGE:$RELEASE" $MY_DIR
+
+# Cleanup
+set +e
+rm -r $MY_DIR/target
+docker rmi -f $IMAGE:build
+set -e
+
+# Push
+docker push "$IMAGE:$RELEASE"
