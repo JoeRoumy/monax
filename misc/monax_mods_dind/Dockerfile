@@ -1,4 +1,4 @@
-FROM docker:17.09-dind
+FROM docker:18.02-dind
 MAINTAINER Monax <support@monax.io>
 
 ENV USER monax
