@@ -2,12 +2,14 @@
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TARGET="monax"
 IMAGE="quay.io/monax/$TARGET"
-RELEASE=${version:-"0.18.0"}
+RELEASE=${version:-"0.18.1"}
 SOLC_VERSION="0.4.11"
 
+echo $MY_DIR
 set -e
 mkdir -p $MY_DIR/target
-docker build --build-arg RELEASE="$RELEASE" --build-arg TARGET="$TARGET" --file Dockerfile.build --tag $IMAGE:build $MY_DIR
+docker build --build-arg RELEASE="$RELEASE" --build-arg TARGET="$TARGET" --file $MY_DIR/Dockerfile.build --tag $IMAGE:build $MY_DIR/../..
+echo foo
 docker run --rm --entrypoint cat $IMAGE:build /usr/local/bin/$TARGET > $MY_DIR/target/$TARGET.dockerartefact
 # docker run --rm --entrypoint cat ethereum/solc:$SOLC_VERSION /usr/bin/solc > $MY_DIR/target/solc.dockerartefact
 docker run --rm --entrypoint cat quay.io/monax/compilers:$RELEASE /usr/local/bin/solc > $MY_DIR/target/solc.dockerartefact

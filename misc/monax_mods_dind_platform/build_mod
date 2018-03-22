@@ -2,7 +2,7 @@
 MY_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 TARGET="monax"
 IMAGE="quay.io/monax/$TARGET"
-RELEASE=${version:-"0.18.0"}
+RELEASE=${version:-"0.18.1"}
 MODIFIER="platform_deployer"
 
 set -e

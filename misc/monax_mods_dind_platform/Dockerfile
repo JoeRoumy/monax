@@ -1,4 +1,4 @@
-FROM quay.io/monax/monax:0.18.0-dind
+FROM quay.io/monax/monax:0.18.1-dind
 MAINTAINER Monax <support@monax.io>
 
 env HELM_VERSION 2.8.2

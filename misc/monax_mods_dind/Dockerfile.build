@@ -6,8 +6,6 @@ ARG TARGET
 ENV TARGET_URL github.com/monax/$TARGET
 ENV REPO $GOPATH/src/$TARGET_URL
 
-RUN git clone https://$TARGET_URL $REPO
+COPY . $REPO
 WORKDIR $REPO
-RUN git checkout v$RELEASE && \
-  cd $REPO/cmd/$TARGET && \
-  go build --ldflags '-extldflags "-static"' -o $INSTALL_BASE/$TARGET
+RUN go build --ldflags '-extldflags "-static"' -o $INSTALL_BASE/$TARGET github.com/monax/monax/cmd/monax
